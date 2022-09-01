@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: teal;
+      }
+      .container {
+        padding: 20px;
+        border-radius: 5px;
+        background-color: rgba(245, 245, 245, 0.601);
+      }
+      .Form input {
+        display: block;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form action="" class="Form">
+        <input type="text" placeholder="name" />
+        <input type="email" placeholder="email" />
+        <input type="submit" />
+      </form>
+    </div>
+  </body>
+  <script>
+    //   fetch("http://localhost:8000", { method: "GET" })
+    //     .then((data) => data.json())
+    //     .then((data) => {
+    //       console.log(data);
+    //     });
+
+    document.querySelector(".Form").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = e.target.children[0].value;
+      const email = e.target.children[1].value;
+
+      const user = {
+        name: name,
+        email: email,
+      };
+
+      if ((name.length > 0) & (email.length > 0)) {
+        fetch("http://localhost:8000/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        })
+          .then((data) => data.json())
+          .then((data) => {
+            if (data.success === false) {
+              alert(data.msg)
+            }
+          });
+      } else {
+        alert("fill in both field");
+      }
+    });
+  </script>
+</html>
